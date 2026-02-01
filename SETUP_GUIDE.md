@@ -73,10 +73,10 @@ Replace these values:
 ```env
 # Database - Choose one:
 # For Local MongoDB:
-DATABASE_URL=mongodb://localhost:27017/studymaster
+DATABASE_URL=mongodb://localhost:27017/fuseboxeduflow
 
 # For MongoDB Atlas (Cloud):
-# DATABASE_URL=mongodb+srv://username:password@cluster.mongodb.net/studymaster
+# DATABASE_URL=mongodb+srv://username:password@cluster.mongodb.net/fuseboxeduflow
 
 # JWT Secret (Create a random string)
 JWT_SECRET=your_super_secret_random_string_12345

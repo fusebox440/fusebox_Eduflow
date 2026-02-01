@@ -13,7 +13,7 @@
 - ✍️ Sign up with your email
 - 🆓 Create FREE cluster (M0 tier)
 - ⚙️ Steps:
-  1. Create new project called "StudyMaster"
+  1. Create new project called "Fusebox Eduflow"
   2. Build a Database → FREE Shared cluster
   3. Create username & password (save these!)
   4. Add IP: 0.0.0.0/0 (allow from anywhere)
@@ -68,7 +68,7 @@ Open the file and replace these values:
 
 ```env
 # MongoDB Connection String (from Step 1.1)
-DATABASE_URL=mongodb+srv://username:password@cluster.mongodb.net/studymaster
+DATABASE_URL=mongodb+srv://username:password@cluster.mongodb.net/fuseboxeduflow
 
 # JWT Secret (just make up a random string)
 JWT_SECRET=lakshya_secret_key_12345_random_string
