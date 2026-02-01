@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const subSectionSchema = new mongoose.Schema({
     title: {
@@ -16,4 +16,4 @@ const subSectionSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('SubSection', subSectionSchema) 
+export default mongoose.model('SubSection', subSectionSchema) 

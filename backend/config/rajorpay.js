@@ -1,7 +1,9 @@
-const Rajorpay = require('razorpay');
-require('dotenv').config();
+import Razorpay from 'razorpay';
+import dotenv from 'dotenv';
 
-exports.instance = new Rajorpay({
+dotenv.config();
+
+export const instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY,
     key_secret: process.env.RAZORPAY_SECRET
 })

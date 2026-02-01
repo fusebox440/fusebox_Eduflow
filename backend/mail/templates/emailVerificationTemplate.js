@@ -1,5 +1,3 @@
-const { eventNames } = require("../../models/section");
-
 const otpTemplate = (otp, name) => {
 	return `<!DOCTYPE html>
 	<html>
@@ -86,4 +84,4 @@ const otpTemplate = (otp, name) => {
 	
 	</html>`;
 };
-module.exports = otpTemplate;
+export default otpTemplate;

@@ -1,16 +1,16 @@
-const Profile = require('../models/profile');
-const User = require('../models/user');
-const CourseProgress = require('../models/courseProgress')
-const Course = require('../models/course')
+import Profile from '../models/profile.js';
+import User from '../models/user.js';
+import CourseProgress from '../models/courseProgress.js'
+import Course from '../models/course.js'
 
-const { uploadImageToCloudinary, deleteResourceFromCloudinary } = require('../utils/imageUploader');
-const { convertSecondsToDuration } = require('../utils/secToDuration')
+import { uploadImageToCloudinary, deleteResourceFromCloudinary } from '../utils/imageUploader.js';
+import { convertSecondsToDuration } from '../utils/secToDuration.js'
 
 
 
 
 // ================ update Profile ================
-exports.updateProfile = async (req, res) => {
+export const updateProfile = async (req, res) => {
     try {
         // extract data
         const { gender = '', dateOfBirth = "", about = "", contactNumber = '', firstName, lastName } = req.body;
@@ -65,7 +65,7 @@ exports.updateProfile = async (req, res) => {
 
 
 // ================ delete Account ================
-exports.deleteAccount = async (req, res) => {
+export const deleteAccount = async (req, res) => {
     try {
         // extract user id
         const userId = req.user.id;
@@ -123,7 +123,7 @@ exports.deleteAccount = async (req, res) => {
 
 
 // ================ get details of user ================
-exports.getUserDetails = async (req, res) => {
+export const getUserDetails = async (req, res) => {
     try {
         // extract userId
         const userId = req.user.id;
@@ -153,7 +153,7 @@ exports.getUserDetails = async (req, res) => {
 
 
 // ================ Update User profile Image ================
-exports.updateUserProfileImage = async (req, res) => {
+export const updateUserProfileImage = async (req, res) => {
     try {
         const profileImage = req.files?.profileImage;
         const userId = req.user.id;
@@ -199,7 +199,7 @@ exports.updateUserProfileImage = async (req, res) => {
 
 
 // ================ Get Enrolled Courses ================
-exports.getEnrolledCourses = async (req, res) => {
+export const getEnrolledCourses = async (req, res) => {
     try {
         const userId = req.user.id
         let userDetails = await User.findOne({ _id: userId, })
@@ -269,7 +269,7 @@ exports.getEnrolledCourses = async (req, res) => {
 
 
 // ================ instructor Dashboard ================
-exports.instructorDashboard = async (req, res) => {
+export const instructorDashboard = async (req, res) => {
     try {
         const courseDetails = await Course.find({ instructor: req.user.id })
 

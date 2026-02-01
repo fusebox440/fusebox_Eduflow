@@ -1,20 +1,21 @@
-const Rajorpay = require('razorpay');
-const instance = require('../config/rajorpay');
-const crypto = require('crypto');
-const mailSender = require('../utils/mailSender');
-const { courseEnrollmentEmail } = require('../mail/templates/courseEnrollmentEmail');
-require('dotenv').config();
+import Razorpay from 'razorpay';
+import { instance } from '../config/rajorpay.js';
+import crypto from 'crypto';
+import mailSender from '../utils/mailSender.js';
+import { courseEnrollmentEmail } from '../mail/templates/courseEnrollmentEmail.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const User = require('../models/user');
-const Course = require('../models/course');
-const CourseProgress = require("../models/courseProgress")
+import User from '../models/user.js';
+import Course from '../models/course.js';
+import CourseProgress from "../models/courseProgress.js"
 
 
-const { default: mongoose } = require('mongoose')
+import mongoose from 'mongoose'
 
 
 // ================ capture the payment and Initiate the 'Rajorpay order' ================
-exports.capturePayment = async (req, res) => {
+export const capturePayment = async (req, res) => {
 
     // extract courseId & userId
     const { coursesId } = req.body;
@@ -80,7 +81,7 @@ exports.capturePayment = async (req, res) => {
 
 
 // ================ verify the payment ================
-exports.verifyPayment = async (req, res) => {
+export const verifyPayment = async (req, res) => {
     const razorpay_order_id = req.body?.razorpay_order_id;
     const razorpay_payment_id = req.body?.razorpay_payment_id;
     const razorpay_signature = req.body?.razorpay_signature;
@@ -169,7 +170,7 @@ const enrollStudents = async (courses, userId, res) => {
 
 
 
-exports.sendPaymentSuccessEmail = async (req, res) => {
+export const sendPaymentSuccessEmail = async (req, res) => {
     const { orderId, paymentId, amount } = req.body;
 
     const userId = req.user.id;

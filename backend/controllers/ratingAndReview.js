@@ -1,10 +1,10 @@
-const User = require('../models/user')
-const Course = require('../models/course')
-const RatingAndReview = require('../models/ratingAndReview')
-const mongoose = require('mongoose');
+import User from '../models/user.js'
+import Course from '../models/course.js'
+import RatingAndReview from '../models/ratingAndReview.js'
+import mongoose from 'mongoose';
 
 // ================ Create Rating ================
-exports.createRating = async (req, res) => {
+export const createRating = async (req, res) => {
     try {
         // get data
         const { rating, review, courseId } = req.body;
@@ -85,7 +85,7 @@ exports.createRating = async (req, res) => {
 
 
 // ================ Get Average Rating ================
-exports.getAverageRating = async (req, res) => {
+export const getAverageRating = async (req, res) => {
     try {
             //get course ID
             const courseId = req.body.courseId;
@@ -136,7 +136,7 @@ exports.getAverageRating = async (req, res) => {
 
 
 // ================ Get All Rating And Reviews ================
-exports.getAllRatingReview = async(req, res)=>{
+export const getAllRatingReview = async(req, res)=>{
     try{
         const allReviews = await RatingAndReview.find({})
         .sort({rating:'desc'})

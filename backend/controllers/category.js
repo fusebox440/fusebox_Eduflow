@@ -1,4 +1,4 @@
-const Category = require('../models/category')
+import Category from '../models/category.js'
 
 // get Random Integer
 function getRandomInt(max) {
@@ -6,7 +6,7 @@ function getRandomInt(max) {
 }
 
 // ================ create Category ================
-exports.createCategory = async (req, res) => {
+export const createCategory = async (req, res) => {
     try {
         // extract data
         const { name, description } = req.body;
@@ -41,7 +41,7 @@ exports.createCategory = async (req, res) => {
 
 
 // ================ get All Category ================
-exports.showAllCategories = async (req, res) => {
+export const showAllCategories = async (req, res) => {
     try {
         // get all category from DB
         const allCategories = await Category.find({}, { name: true, description: true });
@@ -66,7 +66,7 @@ exports.showAllCategories = async (req, res) => {
 
 
 // ================ Get Category Page Details ================
-exports.getCategoryPageDetails = async (req, res) => {
+export const getCategoryPageDetails = async (req, res) => {
     try {
         const { categoryId } = req.body
         // console.log("PRINTING CATEGORY ID: ", categoryId);

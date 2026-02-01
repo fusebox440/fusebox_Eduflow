@@ -1,11 +1,11 @@
-const mongoose = require("mongoose")
-const Section = require("../models/section")
-const SubSection = require("../models/subSection")
-const CourseProgress = require("../models/courseProgress")
+import mongoose from "mongoose"
+import Section from "../models/section.js"
+import SubSection from "../models/subSection.js"
+import CourseProgress from "../models/courseProgress.js"
 
 
 // ================ update Course Progress ================
-exports.updateCourseProgress = async (req, res) => {
+export const updateCourseProgress = async (req, res) => {
   const { courseId, subsectionId } = req.body
   const userId = req.user.id
 

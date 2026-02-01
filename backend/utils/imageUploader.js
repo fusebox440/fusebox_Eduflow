@@ -1,6 +1,7 @@
-const cloudinary = require('cloudinary').v2;
+import cloudinary from 'cloudinary';
+const cloudinaryV2 = cloudinary.v2;
 
-exports.uploadImageToCloudinary = async (file, folder, height, quality) => {
+export const uploadImageToCloudinary = async (file, folder, height, quality) => {
     try {
         const options = { folder };
         if (height) options.height = height;
@@ -8,7 +9,7 @@ exports.uploadImageToCloudinary = async (file, folder, height, quality) => {
 
         // options.resourse_type = 'auto';
         options.resource_type = 'auto';
-        return await cloudinary.uploader.upload(file.tempFilePath, options);
+        return await cloudinaryV2.uploader.upload(file.tempFilePath, options);
     }
     catch (error) {
         console.log("Error while uploading image");
@@ -19,11 +20,11 @@ exports.uploadImageToCloudinary = async (file, folder, height, quality) => {
 
 
 // Function to delete a resource by public ID
-exports.deleteResourceFromCloudinary = async (url) => {
+export const deleteResourceFromCloudinary = async (url) => {
     if (!url) return;
 
     try {
-        const result = await cloudinary.uploader.destroy(url);
+        const result = await cloudinaryV2.uploader.destroy(url);
         console.log(`Deleted resource with public ID: ${url}`);
         console.log('Delete Resourse result = ', result)
         return result;

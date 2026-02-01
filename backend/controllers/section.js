@@ -1,8 +1,8 @@
-const Course = require('../models/course');
-const Section = require('../models/section');
+import Course from '../models/course.js';
+import Section from '../models/section.js';
 
 // ================ create Section ================
-exports.createSection = async (req, res) => {
+export const createSection = async (req, res) => {
     try {
         // extract data 
         const { sectionName, courseId } = req.body;
@@ -60,7 +60,7 @@ exports.createSection = async (req, res) => {
 
 
 // ================ update Section ================
-exports.updateSection = async (req, res) => {
+export const updateSection = async (req, res) => {
     try {
         // extract data
         const { sectionName, sectionId, courseId } = req.body;
@@ -104,7 +104,7 @@ exports.updateSection = async (req, res) => {
 
 
 // ================ Delete Section ================
-exports.deleteSection = async (req, res) => {
+export const deleteSection = async (req, res) => {
     try {
         const { sectionId, courseId } = req.body;
         // console.log('sectionId = ', sectionId);
