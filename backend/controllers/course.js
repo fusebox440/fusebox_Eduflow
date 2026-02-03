@@ -3,7 +3,7 @@ import User from '../models/user.js';
 import Category from '../models/category.js';
 import Section from '../models/section.js'
 import SubSection from '../models/subSection.js'
-import CourseProgress from '../models/courseProgress.js'
+import CourseProgress from '../models/courseProgress.js' 
 
 import { uploadImageToCloudinary, deleteResourceFromCloudinary } from '../utils/imageUploader.js';
 import { convertSecondsToDuration } from "../utils/secToDuration.js"
@@ -28,7 +28,7 @@ export const createCourse = async (req, res) => {
 
         // validation
         if (!courseName || !courseDescription || !whatYouWillLearn || !price
-            || !category || !thumbnail || !instructions.length || !tag.length) {
+             || !thumbnail || !instructions.length || !tag.length) {
             return res.status(400).json({
                 success: false,
                 message: 'All Fileds are required'
@@ -44,7 +44,7 @@ export const createCourse = async (req, res) => {
         const instructorId = req.user.id;
 
 
-        // check given category is valid or not
+        // // check given category is valid or not
         const categoryDetails = await Category.findById(category);
         if (!categoryDetails) {
             return res.status(401).json({
@@ -59,8 +59,8 @@ export const createCourse = async (req, res) => {
 
         // create new course - entry in DB
         const newCourse = await Course.create({
-            courseName, courseDescription, instructor: instructorId, whatYouWillLearn, price, category: categoryDetails._id,
-            tag, status, instructions, thumbnail: thumbnailDetails.secure_url, createdAt: Date.now(),
+            courseName, courseDescription, instructor: instructorId, whatYouWillLearn, price,
+            tag, status, instructions, category, thumbnail: thumbnailDetails.secure_url, createdAt: Date.now(),
         });
 
         // add course id to instructor courses list, this is bcoz - it will show all created courses by instructor 
@@ -74,7 +74,7 @@ export const createCourse = async (req, res) => {
         );
 
 
-        // Add the new course to the Categories
+        // // Add the new course to the Categories
         await Category.findByIdAndUpdate(
             { _id: category },
             {

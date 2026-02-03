@@ -19,47 +19,57 @@ export const sendOTP = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const checkUserPresent = await User.findOne({ email });
-    if (checkUserPresent) {
-      return res.status(401).json({
+    if (!email) {
+      return res.status(400).json({
         success: false,
-        message: "User is already registered",
+        message: "Email is required",
       });
     }
 
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "User already registered",
+      });
+    }
+
+    // generate OTP
     const otp = otpGenerator.generate(6, {
       upperCaseAlphabets: false,
       lowerCaseAlphabets: false,
       specialChars: false,
     });
 
+    // save OTP first
+    await OTP.create({ email, otp });
+
+    // name extraction
     const name = email
       .split("@")[0]
-      .split(".")
-      .map((part) => part.replace(/\d+/g, ""))
-      .join(" ");
+      .replace(/[0-9]/g, "")
+      .replace(".", " ");
 
+    // send email
     await mailSender(
       email,
       "OTP Verification Email",
       otpTemplate(otp, name)
     );
 
-    await OTP.create({ email, otp });
-
     return res.status(200).json({
       success: true,
-      otp, // ⚠️ remove in production
       message: "OTP sent successfully",
     });
   } catch (error) {
-    console.error("Error while generating OTP", error);
+    console.error("SEND OTP ERROR:", error);
     return res.status(500).json({
       success: false,
-      message: "Error while generating OTP",
+      message: "Failed to send OTP",
     });
   }
 };
+
 
 // ================ SIGNUP =================
 export const signup = async (req, res) => {
@@ -84,7 +94,7 @@ export const signup = async (req, res) => {
       !accountType ||
       !otp
     ) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: "All fields are required",
       });
@@ -105,16 +115,24 @@ export const signup = async (req, res) => {
       });
     }
 
-    const recentOtp = await OTP.findOne({ email })
-      .sort({ createdAt: -1 })
-      .limit(1);
+    const recentOtp = await OTP.findOne({ email }).sort({ createdAt: -1 });
 
-    if (!recentOtp || otp !== recentOtp.otp) {
+    if (!recentOtp) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP expired or not found",
+      });
+    }
+
+    if (String(otp) !== String(recentOtp.otp)) {
       return res.status(400).json({
         success: false,
         message: "Invalid OTP",
       });
     }
+
+    // clean OTPs
+    await OTP.deleteMany({ email });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -139,18 +157,19 @@ export const signup = async (req, res) => {
       image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
     });
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "User registered successfully",
     });
   } catch (error) {
-    console.error("Error during signup", error);
+    console.error("SIGNUP ERROR:", error);
     return res.status(500).json({
       success: false,
       message: "User cannot be registered",
     });
   }
 };
+
 
 // ================ LOGIN =================
 export const login = async (req, res) => {
